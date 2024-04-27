@@ -1,12 +1,11 @@
 const pool = require("../configs/db");
 const { selectAll, create, drop, update, selectOne } = require("../models/products");
+const {response} = require('../helper/common')
 
 const getProducts = async (req, res, next) => {
   const { rows } = await selectAll()
-  res.json({
-    status: "success",
-    data: rows,
-  });
+
+  response(res, rows, 200, 'get data success')
 };
 
 const createProduct = async (req, res, next) => {
@@ -22,21 +21,15 @@ const createProduct = async (req, res, next) => {
     stock,
   };
   await create(data)
-  res.status(201);
-  res.json({
-    status: "success",
-    message: "data berhasil ditambahkan",
-    data: data,
-  });
+  response(res, data, 201, 'product berhasil ditambahkan')
 };
 
 const dropProduct = async(req, res, next)=>{
   const id = req.params.id
   await drop(id)
-  res.json({
-    status: 'success',
-    message: `product berhasil dihapus dengan id ${id}`
-  })
+  
+  response(res, {id}, 200, 'product berhasil dihapus')
+
 }
 
 const updateProduct = async(req, res, next)=>{
@@ -49,10 +42,8 @@ const updateProduct = async(req, res, next)=>{
     stock
   }
   await update(data, id)
-  res.json({
-    status: 'success',
-    data: data
-  })
+ 
+  response(res, data, 200, 'product berhasil diupdate')
 }
 
 const detailProduct = async(req, res, next)=>{

@@ -1,10 +1,12 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 
 const productsRoutes = require('./src/routes/products')
+// const usersRoutes = require('./src/routes/users')
 
-const PORT = 4000
+const PORT = process.env.PORT
 app.use(bodyParser.json())
 
 app.get('/helo', (req, res, next)=>{
@@ -12,6 +14,7 @@ app.get('/helo', (req, res, next)=>{
 })
 
 app.use('/products', productsRoutes)
+// app.use('/users', usersRoutes)
 // app.use('/users', userRoutes)
 
 app.listen(PORT, ()=>{
