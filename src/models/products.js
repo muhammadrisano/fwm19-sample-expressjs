@@ -1,7 +1,7 @@
 const pool = require("../configs/db");
 
-const selectAll = () =>{
-  return pool.query("SELECT * FROM products ORDER BY id ASC");
+const selectAll = ({limit, offset, search, sort, sortBy}) =>{
+  return pool.query("SELECT * FROM products ORDER BY id ASC LIMIT $1 OFFSET $2", [limit, offset]);
 }
 
 const create = ({name, description, stock})=>{
@@ -23,11 +23,15 @@ const selectOne = (id) =>{
   return pool.query("SELECT * FROM products WHERE id = $1", [id])
 }
 
+const countProducts = ()=>{
+  return pool.query("SELECT COUNT(*) AS total FROM products")
+}
+
 module.exports = {
   selectAll,
   create,
   drop,
   update,
-  selectOne
-
+  selectOne,
+  countProducts
 }
