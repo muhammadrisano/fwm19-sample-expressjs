@@ -3,13 +3,14 @@ const { getProducts, createProduct, updateProduct, dropProduct, detailProduct } 
 const pool = require('../configs/db')
 const { myMiddleware } = require('../middlewares/common')
 const route = express.Router()
+const {protect} = require('../middlewares/auth')
 
 // /product
 route
-  .get('/', myMiddleware,  getProducts)
+  .get('/', myMiddleware, protect,  getProducts)
   .post('/', createProduct)
-  .delete('/:id', dropProduct)
-  .put('/:id', updateProduct)
+  .delete('/:id',protect,  dropProduct)
+  .put('/:id', protect,  updateProduct)
   .get('/:id', detailProduct )
 
 module.exports = route

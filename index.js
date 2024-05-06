@@ -2,22 +2,29 @@ require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
 const commonMiddle  = require('./src/middlewares/common')
 
 const productsRoutes = require('./src/routes/products')
-// const usersRoutes = require('./src/routes/users')
+const workersRoutes = require('./src/routes/workers')
+const usersRoutes = require('./src/routes/users')
 
 const PORT = process.env.PORT
 app.use(bodyParser.json())
 app.use(morgan('dev'))
-
+// const optionCors = {
+//   origin: 'http://risano.com'
+// }
+app.use(cors())
 
 app.get('/helo', (req, res, next)=>{
   res.send('selamat datang di app bro...')
 })
 
 app.use('/products', productsRoutes)
+app.use('/workers', workersRoutes)
+app.use('/users', usersRoutes)
 // app.use('/users', usersRoutes)
 // app.use('/users', userRoutes)
 

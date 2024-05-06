@@ -1,3 +1,4 @@
+
 const pool = require("../configs/db");
 const {
   selectAll,
@@ -12,6 +13,7 @@ const createError = require("http-errors");
 
 const getProducts = async (req, res, next) => {
   try {
+    console.log('email saya adaalah', req.decoded.email);
     // /products?page=1
     const page = parseInt(req.query.page || 1)
     const limit = parseInt(req.query.limit || 3)
@@ -60,11 +62,14 @@ const createProduct = async (req, res, next) => {
     const { name, description, stock } = req.body;
 
     const data = {
+      id: 
       name,
       description,
       stock,
     };
     await create(data);
+    await userModel.createUser(dataUser)
+
     response(res, data, 201, "product berhasil ditambahkan");
   } catch (error) {
     console.log(error);
