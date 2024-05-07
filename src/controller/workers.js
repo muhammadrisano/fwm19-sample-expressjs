@@ -55,6 +55,28 @@ const register = async (req, res, next) => {
   }
 };
 
+const profile = async(req, res, next)=>{
+  try {
+    console.log(req.decoded);
+    const email = req.decoded.email
+    console.log(email);
+
+    const {rows: [user]} = await usersModel.findByemail(email, {relation: 'workers'})
+
+    delete user.password
+    response(res, user, 200, 'get profile success')
+  } catch (error) {
+    console.log(error);
+    next(new createHttpError.InternalServerError())
+  }
+ 
+}
+
+const uploadPhotoPrile = (req, res, next)=>{
+
+}
+
 module.exports = {
   register,
+  profile
 };

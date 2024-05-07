@@ -29,6 +29,28 @@ const protect = (req, res, next) =>{
   }
 }
 
+
+const isWorker = (req, res, next)=>{
+  const role = req.decoded.role
+  if(role !== 'worker'){
+    next(createHttpError(403, 'worker only'))
+    return
+  }
+  next()
+}
+
+const checkRole = (roleName) =>{
+  
+  return (req, res, next)=>{
+    const role = req.decoded.role
+    if(role !== roleName){
+      next(createHttpError(403, `${roleName} only!!`))
+      return
+    }
+    next()
+  }
+}
 module.exports = {
-  protect
+  protect,
+  checkRole
 }

@@ -9,6 +9,9 @@ const commonMiddle  = require('./src/middlewares/common')
 const productsRoutes = require('./src/routes/products')
 const workersRoutes = require('./src/routes/workers')
 const usersRoutes = require('./src/routes/users')
+const uploadRoutes = require('./src/routes/upload')
+const path = require('path')
+
 
 const PORT = process.env.PORT
 app.use(bodyParser.json())
@@ -25,6 +28,7 @@ app.get('/helo', (req, res, next)=>{
 app.use('/products', productsRoutes)
 app.use('/workers', workersRoutes)
 app.use('/users', usersRoutes)
+app.use('/upload', uploadRoutes)
 // app.use('/users', usersRoutes)
 // app.use('/users', userRoutes)
 
@@ -40,6 +44,11 @@ app.use((err, req, res, next)=>{
     message: messageError
   })
 })
+
+console.log(__dirname);
+
+app.use('/file', express.static(path.join(__dirname, '/upload')))
+
 
 app.listen(PORT, ()=>{
   console.log(`server running in port ${PORT}`);

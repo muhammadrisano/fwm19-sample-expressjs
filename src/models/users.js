@@ -1,6 +1,6 @@
 const pool = require("../configs/db");
-const findByemail = (email) =>{
-  return pool.query('SELECT * FROM users where email = $1', [email])
+const findByemail = (email, {relation} = {relation: ''}) =>{
+  return pool.query(`SELECT users.id, users.email, users.role, users.password ${relation ? `, ${relation}.*`: ''} FROM users ${relation ? ` JOIN ${relation} ON users.id = user_id`: ''} WHERE email = $1`, [email])
 }
 
 const create = ({id, email, password, role})=>{
