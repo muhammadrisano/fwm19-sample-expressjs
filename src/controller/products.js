@@ -1,4 +1,4 @@
-
+const setClient = require('../configs/redis')
 const pool = require("../configs/db");
 const {
   selectAll,
@@ -119,6 +119,8 @@ const detailProduct = async (req, res, next) => {
       next(createError(404, "Product Tidak Tersedia"));
       return;
     }
+    const client = await setClient()
+    await client.setEx(`product/${id}`, 60*60, JSON.stringify(product))
     res.json({
       status: "success",
       data: product,

@@ -29,10 +29,25 @@ const login = async(req, res, next) =>{
     console.log(error);
     next(new createHttpError.InternalServerError())
   }
+}
 
- 
+const refreshToken = (req, res, next)=>{
+  const refreshToken = req.body.refreshToken
+  const decoded = jwt.verify(refreshToken, process.env.SECRET_KEY_JWT)
+
+  const payload = {
+    email: decoded.email,
+    role: decoded.role
+  }
+
+  const data = {
+    token: generateToken(payload),
+    refreshToken: generateRefreshToken(payload)
+  }
+  response(res, data, 200, 'Refresh Token Success')
 }
 
 module.exports = {
-  login
+  login,
+  refreshToken
 }
